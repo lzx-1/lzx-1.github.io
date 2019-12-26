@@ -86,13 +86,13 @@
       
         <pre><code>最近集训了为期四天的python培训，主要是学习人脸识别。
 首先说一下遇到的问题汇总，1.python的环境配置 2.python的pip安装 3.pycharm的使用</code></pre><p>关于python的环境配置，目前有很多种版本的python。如3.7.0，3.8.0，我之前安装的是3.8的python，所以有很多老师提供3.7版本pip我安装不上，pypi上也没有对应的3.8版本。所以我卸载了原先的3.8安装了3.7(最简单的卸载方法就是找到python的源文件双击uninstall，找不到就更新一个更高的版本安装后再卸载)。要记好python的安装路径。<br>然后是pip的安装，首先要确定你所需要的pip是否能和你的python版本对应的上，不对应可以去pypi的官网或者国内的镜像网站清华源找。找到之后下载到任意路径，然后打开下载到的文件夹，在上方输入cmd。输入pip install +文件名字(打出几个字母后按tab键)。输入pip list可以查看你所安装的全部pip，输入pip uninstall+文件名 可以卸载对应pip。<br>pycharm的使用，这才是重点。原来以前我写的那些代码都是用虚拟环境运行的，难怪import pygame一直失败。使用pycharm时如果不使用已安装的python环境他会给你创建一个虚拟环境，虚拟环境的优点是体积小，随项目移动。但是你安装的pip他是不会自动识别的，需要手动的添加进去。操作步骤为：文件-设置-项目-project Interpreter-右方的+号(-号就是删除)-然后搜索pip。<img src="/2019/12/26/python集训-人脸识别/%E9%80%89%E6%8B%A9python%E7%8E%AF%E5%A2%83.png" alt><br>    这次实训主要是对cv2的一些操作讲解以及认识到图片，声音，视频的数字化。图片就是一个三维的。可以使用print(cv2. imread(‘./文件名.’))查看文件是一个几维的。对图片来说，一二维确定图片的长宽，三维确定颜色(红绿蓝，全255为白，全0为黑)。贴一个代码 将人物的眼睛替换为心。</p>
-<p>‘’’<br>import cv2  # 导入cv2包</p>
-<p>face = cv2.imread(‘./face1.jpg’)  # 将face1读取并赋给face<br>eye_detector = cv2.CascadeClassifier(‘./haarcascade_eye.xml.’)  # 使用方法CascadeClassifier定义一个眼睛探测器<br>eye_zones = eye_detector.detectMultiScale(face, scaleFactor=1.08, minNeighbors=50)  # 使用眼睛探测器定位出face中的眼睛位置<br>for x, y, w, h in eye_zones:<br>    heart = cv2.imread(‘./heart.jpg’)  # 读取heart图片赋值给变量heart<br>    heart = cv2.resize(heart, dsize=(w, h))  # 重新定义heart的大小<br>    for i in range(w):<br>        for j in range(h):<br>            if (heart[i, j][0] &lt; 10) &amp; (heart[i, j][1] &lt; 10) &amp; (heart[i, j][2] &lt; 10):  # 检测图片的颜色，黑色则pass<br>                pass<br>            else:<br>                face[y + i, x + j] = heart[i, j]  # 未被检测为黑色的部分被赋给face的眼睛部分<br>cv2.imshow(‘face’, face)  # 弹出一个窗口显示修改后的图片<br>cv2.waitKey(0)  # 等待键盘输入，0为无限等待<br>cv2.destroyAllWindows()  # 释放内存<br>‘’’</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">import</span> cv2  <span class="comment"># 导入cv2包</span></span><br><span class="line"></span><br><span class="line"><span class="attr">face</span> = cv2.imread('./face1.jpg')  <span class="comment"># 将face1读取并赋给face</span></span><br><span class="line"><span class="attr">eye_detector</span> = cv2.CascadeClassifier('./haarcascade_eye.xml.')  <span class="comment"># 使用方法CascadeClassifier定义一个眼睛探测器</span></span><br><span class="line"><span class="attr">eye_zones</span> = eye_detector.detectMultiScale(face, <span class="attr">scaleFactor=1.08,</span> <span class="attr">minNeighbors=50)</span>  <span class="comment"># 使用眼睛探测器定位出face中的眼睛位置</span></span><br><span class="line">for x, y, w, h <span class="keyword">in</span> eye_zones:</span><br><span class="line">    <span class="attr">heart</span> = cv2.imread('./heart.jpg')  <span class="comment"># 读取heart图片赋值给变量heart</span></span><br><span class="line">    <span class="attr">heart</span> = cv2.resize(heart, <span class="attr">dsize=(w,</span> h))  <span class="comment"># 重新定义heart的大小</span></span><br><span class="line">    for i <span class="keyword">in</span> range(w):</span><br><span class="line">        for j <span class="keyword">in</span> range(h):</span><br><span class="line">            <span class="keyword">if</span> (heart[i, j][<span class="number">0</span>] &lt; <span class="number">10</span>) &amp; (heart[i, j][<span class="number">1</span>] &lt; <span class="number">10</span>) &amp; (heart[i, j][<span class="number">2</span>] &lt; <span class="number">10</span>):  <span class="comment"># 检测图片的颜色，黑色则pass</span></span><br><span class="line">                pass</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                face[y + i, x + j] = heart[i, j]  <span class="comment"># 未被检测为黑色的部分被赋给face的眼睛部分</span></span><br><span class="line">cv2.imshow('face', face)  <span class="comment"># 弹出一个窗口显示修改后的图片</span></span><br><span class="line">cv2.waitKey(<span class="number">0</span>)  <span class="comment"># 等待键盘输入，0为无限等待</span></span><br><span class="line">cv2.destroyAllWindows()  <span class="comment"># 释放内存</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/26/python集训-人脸识别/" data-id="ck4mq92040003t0udt40puomd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/26/python集训-人脸识别/" data-id="ck4mqg7hl0005tkudsbldh8zq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
@@ -140,7 +140,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/29/学生信息课题实现及源代码/" data-id="ck4mq92050004t0udoohrap5p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/29/学生信息课题实现及源代码/" data-id="ck4mqg7hk0004tkuduf7uor78" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C-C/">C/C++</a></li></ul>
@@ -181,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/18/hexo + github 博客图片插入/" data-id="ck4mq92010001t0udzloc8ooe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/18/hexo + github 博客图片插入/" data-id="ck4mqg7hj0003tkud2t3jro4g" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo使用帮助/">hexo使用帮助</a></li></ul>
@@ -232,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/17/JDK环境变量配置/" data-id="ck4mq92060005t0ud8m90m240" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/17/JDK环境变量配置/" data-id="ck4mqg7hc0000tkudam4gsg7f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
@@ -283,7 +283,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/09/11/hello-world/" data-id="ck4mq91zy0000t0ud0iec5xfy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/09/11/hello-world/" data-id="ck4mqg7hg0001tkudcwecfe6j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo使用帮助/">hexo使用帮助</a></li></ul>
